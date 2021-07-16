@@ -1,15 +1,19 @@
 const alphaNum = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 const yourMessage = document.getElementById('yourMessage');
-let lettersDown = document.getElementById('lettersDown');
-let numbersDown = document.getElementById('numbersDown');
-const submit = document.getElementById('submit');
+let lettersNum = document.getElementById('lettersNum');
+let numbersNum = document.getElementById('numbersNum');
+const encrypt = document.getElementById('encrypt');
+const decrypt = document.getElementById('decrypt');
 const modifiedMessage = document.getElementById('modifiedMessage');
 
-submit.addEventListener('click', function(e) {
-    modifiedMessage.value = caesar(yourMessage.value, lettersDown.value, numbersDown.value);
+encrypt.addEventListener('click', function(e) {
+    modifiedMessage.value = caesar(yourMessage.value, lettersNum.value, numbersNum.value);
 });
 
+decrypt.addEventListener('click', function(e) {
+    modifiedMessage.value = caesar_decrypt(yourMessage.value, lettersNum.value, numbersNum.value);
+});
 
 function caesar(message, lettersDown, numbersDown) {
     let newMsg = '';
@@ -30,4 +34,8 @@ function caesar(message, lettersDown, numbersDown) {
         newMsg += String.fromCharCode(newAscii)
     }
     return newMsg;
+}
+
+function caesar_decrypt(message, lettersUp, numbersUp) {
+    return caesar(message, 26 - lettersUp, 10 - numbersUp)
 }
