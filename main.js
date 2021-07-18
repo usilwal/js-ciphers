@@ -1,25 +1,36 @@
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const vigenereTable = create_vigenere_table();
+
 const yourMessage = document.getElementById('yourMessage');
-const keywordV = document.getElementById('keywordV');
-let lettersNum = document.getElementById('lettersNum');
-let numbersNum = document.getElementById('numbersNum');
-const encryptC = document.getElementById('encryptC');
-const encryptV = document.getElementById('encryptV');
-const decryptC = document.getElementById('decryptC');
+const key = document.getElementById('key');
+const lettersNum = document.getElementById('lettersNum');
+const numbersNum = document.getElementById('numbersNum');
+const encrypt = document.getElementById('encrypt');
+const decrypt = document.getElementById('decrypt');
 const modifiedMessage = document.getElementById('modifiedMessage');
 
-encryptC.addEventListener('click', function(e) {
-    modifiedMessage.value = caesar(yourMessage.value, lettersNum.value, numbersNum.value);
+encrypt.addEventListener('click', function(e) {
+    run_cipher('e');
 });
 
-decryptC.addEventListener('click', function(e) {
-    modifiedMessage.value = caesar_decrypt(yourMessage.value, lettersNum.value, numbersNum.value);
+decrypt.addEventListener('click', function(e) {
+    run_cipher('d');
 });
 
-encryptV.addEventListener('click', function(e) {
-    modifiedMessage.value = vigenere_encrypt(yourMessage.value.toUpperCase(), keywordV.value.toUpperCase());
-});
+function run_cipher(mode) {
+    switch(document.querySelector('input[name="cipher"]:checked').value) {
+        case 'caesar':
+            (mode === 'e') ? 
+            modifiedMessage.value = caesar(yourMessage.value, lettersNum.value, numbersNum.value) : modifiedMessage.value = caesar_decrypt(yourMessage.value, lettersNum.value, numbersNum.value);
+            break;
+        case 'vigenere':
+            (mode === 'e') ?
+            modifiedMessage.value = vigenere_encrypt(yourMessage.value.toUpperCase(), key.value.toUpperCase()) : modifiedMessage.value = vigenere_decrypt(yourMessage.value.toUpperCase(), key.value.toUpperCase());
+            break;
+        default:
+            console.error('invalid option')
+    }
+}
 
 function caesar(message, lettersDown, numbersDown) {
     let newMsg = '';
@@ -62,6 +73,14 @@ function vigenere_encrypt(message, key) {
     encryptedMessage = '';
     for (let i = 0; i < message.length; i++) {
         encryptedMessage += caesar(message[i], key[i % key.length].charCodeAt() - 65, 0)
+    }
+    return encryptedMessage;
+}
+
+function vigenere_decrypt(message, key) {
+    encryptedMessage = '';
+    for (let i = 0; i < message.length; i++) {
+        encryptedMessage += caesar(message[i], 26 - (key[i % key.length].charCodeAt() - 65), 0)
     }
     return encryptedMessage;
 }

@@ -7,15 +7,28 @@
     <title>Document</title>
 </head>
 <body>
-
-    Your Message: <input type="text" id="yourMessage" size="80"/><br />
-    Vigenere Keyword: <input type="text" id="keywordV" size="80"/><br />
-    How many letters? <input type="number" id="lettersNum" value="13" min="0" max="25" /><br />
-    How many numbers? <input type="number" id="numbersNum" value="13" min="0" max="9" /><br />
-    <button id="encryptC">EncryptC</button>
-    <button id="encryptV">EncryptV</button><br />
-    <button id="decryptC">DecryptC</button><br />
-    Modified Message: <input type="text" id="modifiedMessage" size="80"/>
+    <form>
+        <p>Choose encryption method:</p>
+        <div id="cipherType">
+            <input type="radio" id="caesar"
+                 name="cipher" value="caesar">
+            <label for="caesar">Caesar</label>
+            <input type="radio" id="vigenere"
+                 name="cipher" value="vigenere">
+            <label for="vignere">Vigenere</label>
+        </div>
+        <div id="cipherInputs">
+            Your Message: <input type="text" id="yourMessage" size="80"/><br />
+            Key: <input type="text" id="key" size="80"/><br />
+            How many letters? <input type="number" id="lettersNum" value="13" min="0" max="25" /><br />
+            How many numbers? <input type="number" id="numbersNum" value="13" min="0" max="9" /><br />
+        </div>
+      </form>
+      <div id="cipherButtons">
+        <button id="encrypt">Encrypt</button>
+        <button id="decrypt">Decrypt</button><br />
+      </div>
+      Modified Message: <input type="text" id="modifiedMessage" size="80"/>
     <script src="main.js"></script>
 
 </body>
