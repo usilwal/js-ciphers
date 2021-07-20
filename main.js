@@ -27,6 +27,10 @@ function run_cipher(mode) {
             (mode === 'e') ?
             modifiedMessage.value = vigenere_encrypt(yourMessage.value.toUpperCase(), key.value.toUpperCase()) : modifiedMessage.value = vigenere_decrypt(yourMessage.value.toUpperCase(), key.value.toUpperCase());
             break;
+        case 'monoalphabetic':
+            (mode === 'e') ?
+            modifiedMessage.value = monoalphabetic_encrypt(yourMessage.value.toUpperCase(), key.value) : modifiedMessage.value = monoalphabetic_decrypt(yourMessage.value.toUpperCase(), key.value);
+            break;
         default:
             console.error('invalid option')
     }
@@ -83,4 +87,41 @@ function vigenere_decrypt(message, key) {
         encryptedMessage += caesar(message[i], 26 - (key[i % key.length].charCodeAt() - 65), 0)
     }
     return encryptedMessage;
+}
+
+function create_monoalphabetic_table(key) {
+    //store the differences in ascii value between alphabet and key 
+    let monoalphabeticTable = [];
+    for (let i = 0; i < 26; i++) {
+        monoalphabeticTable.push(key[i].charCodeAt() - alphabet[i].charCodeAt())
+    }
+    console.log(monoalphabeticTable)
+    return monoalphabeticTable;
+}
+
+function monoalphabetic_encrypt(message, key) {
+    let encryptedMessage = '';
+
+    if (key.length != 26) {
+        return "Key must be 26 characters long"
+    }
+    else if (new Set(key).size != key.length) {
+        return "Key must have all unique characters"
+    }
+    let monoalphabeticTable = create_monoalphabetic_table(key);
+
+    for (let i = 0; i < message.length; i++) {
+        //create encrypted messages
+        if (message[i].match(/^[A-Z]+$/)) {
+            encryptedMessage += String.fromCharCode(message[i].charCodeAt() + monoalphabeticTable[(message[i].charCodeAt() - 65) % 26])
+        }
+        else {
+            encryptedMessage += message[i]
+        }
+    }
+    return encryptedMessage;
+}
+
+function monoalphabetic_decrypt(message, key) {
+    //to be coded
 }
