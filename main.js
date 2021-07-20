@@ -91,12 +91,11 @@ function vigenere_decrypt(message, key) {
 
 function create_monoalphabetic_table(key) {
     //store the differences in ascii value between alphabet and key 
-    let monoalphabeticTable = [];
+    let table = [];
     for (let i = 0; i < 26; i++) {
-        monoalphabeticTable.push(key[i].charCodeAt() - alphabet[i].charCodeAt())
+        table.push(key[i].charCodeAt() - alphabet[i].charCodeAt())
     }
-    console.log(monoalphabeticTable)
-    return monoalphabeticTable;
+    return table;
 }
 
 function monoalphabetic_encrypt(message, key) {
