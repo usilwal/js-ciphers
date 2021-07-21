@@ -1,6 +1,5 @@
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const vigenereTable = create_vigenere_table();
-
 const yourMessage = document.getElementById('yourMessage');
 const key = document.getElementById('key');
 const lettersNum = document.getElementById('lettersNum');
@@ -29,7 +28,7 @@ function run_cipher(mode) {
             break;
         case 'monoalphabetic':
             (mode === 'e') ?
-            modifiedMessage.value = monoalphabetic_encrypt(yourMessage.value.toUpperCase(), key.value) : modifiedMessage.value = monoalphabetic_decrypt(yourMessage.value.toUpperCase(), key.value);
+            modifiedMessage.value = monoalphabetic(yourMessage.value.toUpperCase(), key.value, 1) : modifiedMessage.value = monoalphabetic(yourMessage.value.toUpperCase(), key.value, -1);
             break;
         default:
             console.error('invalid option')
@@ -93,34 +92,31 @@ function create_monoalphabetic_table(key) {
     //store the differences in ascii value between alphabet and key 
     let table = [];
     for (let i = 0; i < 26; i++) {
-        table.push(key[i].charCodeAt() - alphabet[i].charCodeAt())
+        table.push(key[i].charCodeAt() - alphabet[i].charCodeAt());
     }
     return table;
 }
 
-function monoalphabetic_encrypt(message, key) {
-    let encryptedMessage = '';
+function monoalphabetic(message, key, mode) {
+    let newMessage = '';
 
     if (key.length != 26) {
-        return "Key must be 26 characters long"
+        return "Key must be 26 characters long";
     }
     else if (new Set(key).size != key.length) {
-        return "Key must have all unique characters"
+        return "Key must have all unique characters";
     }
     let monoalphabeticTable = create_monoalphabetic_table(key);
 
     for (let i = 0; i < message.length; i++) {
-        //create encrypted messages
+        //create  messages
         if (message[i].match(/^[A-Z]+$/)) {
-            encryptedMessage += String.fromCharCode(message[i].charCodeAt() + monoalphabeticTable[(message[i].charCodeAt() - 65) % 26])
+            //if encrypting, table values stay the same as created; if decrypting, values are subtracted
+            newMessage += String.fromCharCode(message[i].charCodeAt() + (mode * monoalphabeticTable[(message[i].charCodeAt() - 65) % 26]))
         }
         else {
-            encryptedMessage += message[i]
+            newMessage += message[i]
         }
     }
-    return encryptedMessage;
-}
-
-function monoalphabetic_decrypt(message, key) {
-    //to be coded
+    return newMessage;
 }
