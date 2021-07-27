@@ -22,7 +22,13 @@ randomize.addEventListener('click', function(e) {
 });
 
 function get_cipher_type() {
-    return document.querySelector('input[name="cipher"]:checked').value
+    const cipherType = document.querySelector('input[name="cipher"]:checked');
+    if(cipherType) {
+        return cipherType.value;
+    }
+    else {
+        modifiedMessage.value = 'Please select a cipher type!';
+    }
 }
 
 function randomize_key_helper(keyLength, asciiRange) {
@@ -73,7 +79,7 @@ function run_cipher(mode) {
             modifiedMessage.value = monoalphabetic(yourMessage.value.toUpperCase(), key.value, 1) : modifiedMessage.value = monoalphabetic(yourMessage.value.toUpperCase(), key.value, -1);
             break;
         default:
-            console.error('invalid option')
+            break;
     }
 }
 
