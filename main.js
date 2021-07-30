@@ -75,7 +75,7 @@ function run_cipher(mode) {
             break;
         case 'monoalphabetic':
             (mode === 'e') ?
-            modifiedMessage.value = monoalphabetic(yourMessage.value.toUpperCase(), key.value, 'e') : modifiedMessage.value = monoalphabetic(yourMessage.value.toUpperCase(), key.value, 'd');
+            modifiedMessage.value = monoalphabetic(yourMessage.value.toUpperCase(), key.value, 'e') : modifiedMessage.value = monoalphabetic(yourMessage.value, key.value, 'd');
             break;
         default:
             break;
@@ -135,15 +135,6 @@ function vigenere_decrypt(message, key) {
     return encryptedMessage;
 }
 
-function create_monoalphabetic_table(key, mode) {
-    //store the differences in ascii value between alphabet and key 
-    let table = [];
-    for (let i = 0; i < 26; i++) {
-        mode === 'e' ? table.push(key[i].charCodeAt() - alphabet[i].charCodeAt()) : table.push()
-    }
-    return table;
-}
-
 function monoalphabetic(message, key, mode) {
     let newMessage = '';
 
@@ -153,13 +144,11 @@ function monoalphabetic(message, key, mode) {
     else if (new Set(key).size != key.length) {
         return "Key must have all unique characters";
     }
-    let monoalphabeticTable = create_monoalphabetic_table(key, mode);
 
     for (let i = 0; i < message.length; i++) {
         //create  messages
-        if (message[i].match(/^[A-Z]+$/)) {
-            //if encrypting, table values stay the same as created; if decrypting, values are subtracted
-            newMessage += String.fromCharCode(message[i].charCodeAt() + (monoalphabeticTable[(message[i].charCodeAt() - 65) % 26]))
+        if (message[i] !== ' ') {
+            (mode === 'e') ? newMessage += key[(message[i].charCodeAt() - 65) % 26] : newMessage += alphabet[key.indexOf(message[i])]
         }
         else {
             newMessage += message[i]
