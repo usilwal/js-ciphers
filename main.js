@@ -1,5 +1,4 @@
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const vigenereTable = create_vigenere_table();
 const yourMessage = document.getElementById('yourMessage');
 const key = document.getElementById('key');
 const lettersNum = document.getElementById('lettersNum');
@@ -105,18 +104,6 @@ function caesar(message, lettersDown, numbersDown) {
 
 function caesar_decrypt(message, lettersUp, numbersUp) {
     return caesar(message, 26 - lettersUp, 10 - numbersUp)
-}
-
-function create_vigenere_table() {
-    let table = []
-    for (let i = 0; i < 26; i++) {
-        modAlphabet = '';
-        for (let j = 0; j < 26; j++) {
-            modAlphabet += caesar(alphabet[j], i, i)
-        }
-        table.push(modAlphabet)
-    }
-    return table
 }
 
 function vigenere_encrypt(message, key) {
